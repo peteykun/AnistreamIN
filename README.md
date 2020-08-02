@@ -14,10 +14,10 @@ Clone this repository:
     $ git clone https://github.com/peteykun/AnistreamIN.git
     $ cd AnistreamIN
 
-Run bundler and migrate database:
+Run bundler and perform initial database setup:
 
     $ bundle update && bundle install
-    $ rake db:migrate
+    $ rake db:setup
 
 And you're ready to go!
 
