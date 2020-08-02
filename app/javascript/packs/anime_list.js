@@ -19,15 +19,10 @@ var ascending = false;
 var FULL_STAR = "star ";
 var HALF_STAR = "star_half ";
 
-//alphabetical = 0
-//score = 1
-//date = 2
 var sortMethod = 1;
-var platformData = data;
-var displayData = platformData;
-//select all = 1
-//indeterminate = 0
-//none selected = -1
+var data;
+var platformData;
+var displayData;
 var platformChecked = 1;
 var free = 0;
 
@@ -504,5 +499,10 @@ function spinnerVisible(status) {
 var timer;
 
 $(function() {
-	populateInit();
+	$.getJSON("/anime_data_var.json", function(json) {
+		data = json;
+		platformData = data;
+		displayData = data;
+		populateInit();
+	});
 });
