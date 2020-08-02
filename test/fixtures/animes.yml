@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mal_id: 1
+  url: MyString
+  title: MyString
+  score: 1.5
+  eps: 1
+  comments: MyString
+
+two:
+  mal_id: 1
+  url: MyString
+  title: MyString
+  score: 1.5
+  eps: 1
+  comments: MyString

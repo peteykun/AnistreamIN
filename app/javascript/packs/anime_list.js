@@ -334,7 +334,7 @@ function updateContainer()
 	if(displayData.length > 0)
 	{
 		let documentFragment = document.createDocumentFragment();
-		displayData.forEach(object => {documentFragment.appendChild(makeanimeobject(object));});
+		displayData.forEach(object => {documentFragment.appendChild(makeanimeobject(object['attributes']));});
 		container.appendChild(documentFragment);
 	}
 	
@@ -499,8 +499,8 @@ function spinnerVisible(status) {
 var timer;
 
 $(function() {
-	$.getJSON("/anime_data_var.json", function(json) {
-		data = json;
+	$.getJSON("/animes", function(json) {
+		data = json['data'];
 		platformData = data;
 		displayData = data;
 		populateInit();
