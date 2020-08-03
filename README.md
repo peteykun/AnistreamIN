@@ -1,6 +1,6 @@
-# AnistreamIN (Rails)
+# AnistreamIN (Rails & React)
 
-Fork of AnistreamIN built to work on a Rails backend.
+Fork of AnistreamIN built to work on a Rails backend and React frontend.
 
 ## Installing
 

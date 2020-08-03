@@ -158,16 +158,6 @@ function getGenreText(genres)
 	return retVal;
 }
 
-function remakeContainer()
-{
-	var container = document.querySelector(".anime-container");
-	container.remove();
-	var mainContainer = document.querySelector(".container");
-	var animeContainer = document.createElement("div");
-	animeContainer.setAttribute('class','anime-container');
-	mainContainer.appendChild(animeContainer);
-}
-
 function getStar(score)
 {
 	var star_rate = "";
@@ -303,7 +293,6 @@ function getCheckedPlatforms()
 
 function updateContainer()
 {
-	remakeContainer();
 	var results = document.querySelector(".results");
 	var search = document.querySelector(".search-container > input");
 	
@@ -499,10 +488,29 @@ function spinnerVisible(status) {
 var timer;
 
 $(function() {
-	$.getJSON("/animes", function(json) {
-		data = json['data'];
-		platformData = data;
-		displayData = data;
-		populateInit();
-	});
+	// $.getJSON("/animes", function(json) {
+	// 	data = json['data'];
+	// 	platformData = data;
+	// 	displayData = data;
+	// 	populateInit();
+	// });
+	
+	// setTimeout(()=>{
+	// 	spinnerVisible('none')
+	// }, 1000)
+
+	
+	$("#clickAlphAZ").click(clickAlphAZ);
+	$("#clickAlphZA").click(clickAlphZA);
+	$("#clickScoreHL").click(clickScoreHL);
+	$("#clickScoreLH").click(clickScoreLH);
+	$("#clickDateNO").click(clickDateNO);
+	$("#clickDateON").click(clickDateON);
+
+	$("#updateSelect").click(updateSelect);
+	$(".filterData").click(filterData);
+
+	$("#clickFree").click(clickFree);
 });
+
+export default spinnerVisible;
