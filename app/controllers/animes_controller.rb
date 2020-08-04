@@ -7,9 +7,9 @@ class AnimesController < ApplicationController
       end
 
       if params[:sort].nil?
-        result = result.order('score DESC')
+        result = result.order('score DESC NULLS LAST')
       else
-        result = result.order(params[:sort])
+        result = result.order(params[:sort] + ' NULLS LAST')
       end
 
       result = result.limit(20)
