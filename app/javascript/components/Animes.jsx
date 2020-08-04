@@ -80,6 +80,7 @@ class Animes extends React.Component {
       '/animes',
       {
         offset: this.state.animes.data.length,
+        sort: this.state.sort,
         title: this.state.title
       },
       response => {
