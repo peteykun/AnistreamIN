@@ -27,7 +27,13 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'jsonapi-serializer'
-#gem 'active_model_serializers', github: "rails-api/active_model_serializers"
+
+# Admin Panel
+gem 'activeadmin'
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

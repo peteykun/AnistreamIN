@@ -3910,3 +3910,4 @@ mobile_suit_gundam_wing_gundaminfo.genres << drama
 mobile_suit_gundam_wing_gundaminfo.genres << mecha
 mobile_suit_gundam_wing_gundaminfo.save!
 
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
