@@ -3,16 +3,32 @@ import { Link } from "react-router-dom";
 import spinnerVisible from "../packs/anime_list.js";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-function fetchData(comp) {
+function fetchData(comp, offset=0) {
   $.get(
     '/animes',
     {
       title: comp.state.title,
-      sort: comp.state.sort
+      sort: comp.state.sort,
+      offset: offset,
+      platforms: comp.state.platforms
     },
     response => {
-      comp.setState({ animes: response });
       comp.setState({ hasMore: response.data.length > 0 });
+
+      if (offset == 0) {
+        comp.setState({ animes: response });
+      }
+      else {
+        var newAnimes = {...comp.state.animes};
+        console.log('before');
+        console.log(comp.state.animes);
+        console.log('response');
+        console.log(response);
+        newAnimes.data = newAnimes.data.concat(response.data);
+        console.log('after');
+        console.log(newAnimes);
+        comp.setState({ animes: newAnimes })
+      }
     }
   )
 }
@@ -24,6 +40,7 @@ class Animes extends React.Component {
       animes: {'data': []},
       title: '%',
       sort: 'score DESC',
+      platforms: [],
       hasMore: true
     };
 
@@ -76,29 +93,7 @@ class Animes extends React.Component {
   }
   
   fetchMoreData = () => {
-    $.get(
-      '/animes',
-      {
-        offset: this.state.animes.data.length,
-        sort: this.state.sort,
-        title: this.state.title
-      },
-      response => {
-        var newAnimes = {...this.state.animes};
-        
-        if(response.data.length == 0)
-        {
-          this.setState({ hasMore: false });
-          return;
-        }
-
-        response.data.map((anime, index) => (
-          newAnimes.data.push({...anime})
-        ));
-
-        this.setState({ animes: newAnimes })
-      }
-    );
+    fetchData(this, this.state.animes.data.length);
   }
     
 	render() {
