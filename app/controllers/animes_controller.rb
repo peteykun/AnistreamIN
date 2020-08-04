@@ -3,7 +3,7 @@ class AnimesController < ApplicationController
       result = Anime.all
 
       unless params[:title].nil?
-        result = result.where('title LIKE ?', params[:title])
+        result = result.where('lower(title) LIKE ?', params[:title].downcase)
       end
 
       if params[:sort].nil?
