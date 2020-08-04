@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_201530) do
+ActiveRecord::Schema.define(version: 2020_08_04_065349) do
 
   create_table "animes", force: :cascade do |t|
     t.integer "mal_id"
     t.string "url"
     t.string "title"
     t.float "score"
-    t.integer "eps"
+    t.string "eps"
     t.string "comments"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

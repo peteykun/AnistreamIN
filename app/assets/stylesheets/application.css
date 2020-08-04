@@ -423,6 +423,15 @@ button.labels {
 	justify-content: center;
 }
 
+.anime-container .infinite-scroll-component__outerdiv,
+.anime-container .infinite-scroll-component {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
 .anime-object {
 	max-width: 256px;
 	width: 180px;
