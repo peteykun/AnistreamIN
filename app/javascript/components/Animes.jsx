@@ -3,8 +3,18 @@ import { Link } from "react-router-dom";
 import spinnerVisible from "../packs/anime_list.js";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-function updateAnimesState(state) {
-  this.setState(state);
+function fetchData(comp) {
+  $.get(
+    '/animes',
+    {
+      title: comp.state.title,
+      sort: comp.state.sort
+    },
+    response => {
+      comp.setState({ animes: response });
+      comp.setState({ hasMore: response.data.length > 0 });
+    }
+  )
 }
 
 class Animes extends React.Component {
@@ -12,35 +22,71 @@ class Animes extends React.Component {
     super(props);
     this.state = {
       animes: {'data': []},
+      title: '%',
+      sort: 'score DESC',
       hasMore: true
     };
 
-    updateAnimesState.bind(this);
+    this.timer;
+
+    /* Search */
+    $('#search').on("keyup", function() {
+      this.setState({title: '%' + $("div.search-bar input").val() + '%'});
+      
+      clearTimeout(this.timer);
+      this.timer = setTimeout(function() {
+        fetchData(this);
+      }.bind(this), 300);
+    }.bind(this));
+
+    /* Sorting methods*/
+    $("#clickAlphAZ").click(function() {
+      this.setState({sort: 'title ASC'});
+      fetchData(this);
+    }.bind(this));
+
+    $("#clickAlphZA").click(function() {
+      this.setState({sort: 'title DESC'});
+      fetchData(this);
+    }.bind(this));
+
+    $("#clickScoreHL").click(function() {
+      this.setState({sort: 'score DESC'});
+      fetchData(this);
+    }.bind(this));
+
+    $("#clickScoreLH").click(function() {
+      this.setState({sort: 'score ASC'});
+      fetchData(this);
+    }.bind(this));
+
+    $("#clickDateNO").click(function() {
+      this.setState({sort: 'updated_at DESC'});
+      fetchData(this);
+    }.bind(this));
+
+    $("#clickDateON").click(function() {
+      this.setState({sort: 'updated_at ASC'});
+      fetchData(this);
+    }.bind(this));
   }
 
   componentDidMount() {
-      const url = "/animes";
-      $.get(
-        url,
-        response => {
-          this.setState({ animes: response })
-        }
-      );
+    fetchData(this);
   }
   
   fetchMoreData = () => {
-    const url = "/animes";
     $.get(
-      url,
+      '/animes',
       {
-        offset: this.state.animes.data.length
+        offset: this.state.animes.data.length,
+        title: this.state.title
       },
       response => {
         var newAnimes = {...this.state.animes};
         
         if(response.data.length == 0)
         {
-          console.log('Empty response!')
           this.setState({ hasMore: false });
           return;
         }

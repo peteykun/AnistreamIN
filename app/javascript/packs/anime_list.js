@@ -1,27 +1,6 @@
 import $ from 'jquery';
 
 var platformChecked = 1;
-var free = 0;
-var timer;
-
-function clickAlphAZ() {
-}
-
-function clickAlphZA() {
-}
-
-function clickScoreLH() {
-}
-
-function clickScoreHL() {
-}
-
-function clickDateON() {
-}
-
-function clickDateNO() {
-}
-
 
 function filterData() {
 	var checkboxes = document.querySelectorAll(".dropdown .checkbox-container > input");
@@ -72,35 +51,13 @@ function updateSelect() {
 		selectAll[i].checked = (platformChecked == 1);
 }
 
-function searchText() {
-	updateAnimesState({title: $("div.search-bar input").val()});
-}
-
 function spinnerVisible(status) {
 	document.getElementById('spinner').style.display = status
 }
 
-
 $(function() {
-	$("#clickAlphAZ").click(clickAlphAZ);
-	$("#clickAlphZA").click(clickAlphZA);
-	$("#clickScoreHL").click(clickScoreHL);
-	$("#clickScoreLH").click(clickScoreLH);
-	$("#clickDateNO").click(clickDateNO);
-	$("#clickDateON").click(clickDateON);
-
-	$("#updateSelect").click(updateSelect);
-	$(".filterData").click(filterData);
-
-	$("#clickFree").click(clickFree);
-	
-	$('#search').on("keyup", function() {
-		console.log('keyup');
-		timer = setTimeout(searchText,1000);
-	});
-	$('#search').on("keydown", function() {
-		console.log('keydown');
-		clearTimeout(timer);
+	$('#sorters button').click(function() {
+		$('#sorttext').html($(this).html());
 	});
 });
 
