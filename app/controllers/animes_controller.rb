@@ -1,9 +1,13 @@
 class AnimesController < ApplicationController
     def index
-      result = Anime.all
+      result = Anime.joins(:platform).all
 
       unless params[:title].nil?
         result = result.where('lower(title) LIKE ?', params[:title].downcase)
+      end
+
+      unless params[:paid].nil?
+        result = result.where('paid = ?', params[:paid] == 'true')
       end
 
       if params[:sort].nil?

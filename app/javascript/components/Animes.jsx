@@ -9,6 +9,7 @@ function fetchData(comp, offset=0) {
     {
       title: comp.state.title,
       sort: comp.state.sort,
+      paid: comp.state.paid,
       offset: offset,
       platforms: comp.state.platforms
     },
@@ -20,13 +21,7 @@ function fetchData(comp, offset=0) {
       }
       else {
         var newAnimes = {...comp.state.animes};
-        console.log('before');
-        console.log(comp.state.animes);
-        console.log('response');
-        console.log(response);
         newAnimes.data = newAnimes.data.concat(response.data);
-        console.log('after');
-        console.log(newAnimes);
         comp.setState({ animes: newAnimes })
       }
     }
@@ -40,52 +35,67 @@ class Animes extends React.Component {
       animes: {'data': []},
       title: '%',
       sort: 'score DESC',
+      paid: undefined,
       platforms: [],
       hasMore: true
     };
 
     this.timer;
 
+    /* Show Free */
+    $('#clickFree').click(() => {
+      if (this.state.paid === undefined) {
+        this.setState({paid: false});
+        $("button.labels").html('View All');
+      }
+      else if (this.state.paid === false) {
+        this.setState({paid: undefined});
+        $("button.labels").html('View Free');
+      }
+      
+      fetchData(this);
+    });
+
     /* Search */
-    $('#search').on("keyup", function() {
+    $('#search').on("keyup", () => {
       this.setState({title: '%' + $("div.search-bar input").val() + '%'});
       
       clearTimeout(this.timer);
-      this.timer = setTimeout(function() {
+      this.timer = setTimeout(() => {
         fetchData(this);
-      }.bind(this), 300);
-    }.bind(this));
+      }, 300);
+    });
 
     /* Sorting methods*/
-    $("#clickAlphAZ").click(function() {
+    $("#clickAlphAZ").click(() => {
       this.setState({sort: 'title ASC'});
       fetchData(this);
-    }.bind(this));
+    });
 
-    $("#clickAlphZA").click(function() {
+    $("#clickAlphZA").click(() => {
       this.setState({sort: 'title DESC'});
       fetchData(this);
-    }.bind(this));
+    });
 
-    $("#clickScoreHL").click(function() {
+    $("#clickScoreHL").click(() => {
       this.setState({sort: 'score DESC'});
       fetchData(this);
-    }.bind(this));
+    });
 
-    $("#clickScoreLH").click(function() {
+    $("#clickScoreLH").click(() => {
       this.setState({sort: 'score ASC'});
       fetchData(this);
-    }.bind(this));
+    });
 
-    $("#clickDateNO").click(function() {
+    $("#clickDateNO").click(() => {
       this.setState({sort: 'updated_at DESC'});
       fetchData(this);
-    }.bind(this));
+    });
 
-    $("#clickDateON").click(function() {
+    $("#clickDateON").click(() => {
       this.setState({sort: 'updated_at ASC'});
       fetchData(this);
-    }.bind(this));
+    });
   }
 
   componentDidMount() {
