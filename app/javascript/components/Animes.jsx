@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import spinnerVisible from "../packs/anime_list.js";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+function updateAnimesState(state) {
+  this.setState(state);
+}
+
 class Animes extends React.Component {
   constructor(props) {
     super(props);
@@ -10,35 +14,28 @@ class Animes extends React.Component {
       animes: {'data': []},
       hasMore: true
     };
+
+    updateAnimesState.bind(this);
   }
 
   componentDidMount() {
       const url = "/animes";
-      fetch(url)
-        .then(response => {
-          if (response.ok) {
-            response.data = response.data
-            return response.json();
-          }
-          throw new Error("Network response was not ok.");
-        })
-        .then(response => {
+      $.get(
+        url,
+        response => {
           this.setState({ animes: response })
-        })
-        .catch(() => this.props.history.push("/"));
+        }
+      );
   }
   
   fetchMoreData = () => {
-    const url = "/animes?offset=" + this.state.animes.data.length;
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          response.data = response.data
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then(response => {
+    const url = "/animes";
+    $.get(
+      url,
+      {
+        offset: this.state.animes.data.length
+      },
+      response => {
         var newAnimes = {...this.state.animes};
         
         if(response.data.length == 0)
@@ -53,8 +50,8 @@ class Animes extends React.Component {
         ));
 
         this.setState({ animes: newAnimes })
-      })
-      .catch(() => this.props.history.push("/"));
+      }
+    );
   }
     
 	render() {
@@ -83,12 +80,12 @@ class Animes extends React.Component {
           <div className="anime-img-container" style={{backgroundImage: "url(\'" + anime.attributes.img_url + "\')"}}></div>
           <div className="anime-brief">
             <span className="platform-icon" title="Streaming Platform">
-              <a href={anime.attributes.platform_url} id="PrimeVideo">P</a>
+              <a href={anime.attributes.platform_url} id={anime.attributes.platform.split(' ').join('')}>{anime.attributes.platform[0]}</a>
             </span>
             <span className="anime-score">{anime.attributes.score}<span className="material-icons" style={{fontSize: '12px'}}>star</span></span>
             <span className="anime-episodes">
               <span className="material-icons" style={{fontSize: '12px'}}>playlist_play</span>
-              <span></span>
+              <span>{anime.attributes.eps}</span>
             </span>
           </div>
         </div>
