@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import spinnerVisible from "../packs/anime_list.js";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 function fetchData(comp, offset=0) {
@@ -35,6 +33,7 @@ class Animes extends React.Component {
       animes: {'data': []},
       title: '%',
       sort: 'score DESC',
+      platforms: undefined,
       paid: undefined,
       platforms: [],
       hasMore: true
@@ -96,6 +95,26 @@ class Animes extends React.Component {
       this.setState({sort: 'updated_at ASC'});
       fetchData(this);
     });
+
+    /* Filter by Platform */
+    $('input#updateSelect').change(() => {
+      if($(".dropdown .checkbox-container > input")[0].checked) {
+        this.setState({platforms: undefined});
+        fetchData(this);
+      }
+    });
+
+    $('input.filterData').change(() => {
+      var platformData = [];
+      var checkboxes = $(".dropdown .checkbox-container > input");
+
+      for(var i=1; i<checkboxes.length; i++)
+        if(checkboxes[i].checked)
+          platformData = platformData.concat(checkboxes[i].name);
+      
+      this.setState({platforms: platformData});
+      fetchData(this);
+    });
   }
 
   componentDidMount() {
@@ -109,15 +128,22 @@ class Animes extends React.Component {
 	render() {
     const { animes } = this.state;
 
-    if (animes.data.length > 0)
-      spinnerVisible('none');
+    if (animes.data.length > 0) {
+      $('#anime-container-stub').hide();
+      $('#anime-container').show();
+    }
 
     return (
     <InfiniteScroll
       dataLength={animes.data.length}
       next={this.fetchMoreData}
       hasMore={this.state.hasMore}
-      loader={<h4>Loading...</h4>}
+      loader={
+        <div className="anime-object aos-init aos-animate loading" data-aos="fade-up">
+          <div className="inner">
+          </div>
+        </div>
+      }
       endMessage={
         <p style={{textAlign: 'center'}}>
           <b>End of list</b>

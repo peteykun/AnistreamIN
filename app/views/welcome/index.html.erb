@@ -24,16 +24,10 @@
                 <span class="value">Platform</span>
             </div>
             <div class="dropdown">
-                <label class="checkbox-container">Select All<input type="checkbox" id="Select All" id="updateSelect" checked><span class="checkmark"></span></label>
-                <label class="checkbox-container">Ani-One<input type="checkbox" id="Ani-One" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">CONtv<input type="checkbox" id="CONtv" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">Crunchyroll<input type="checkbox" id="Crunchyroll" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">GundamInfo<input type="checkbox" id="GundamInfo" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">Muse Asia<input type="checkbox" id="Muse Asia" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">Netflix<input type="checkbox" id="Netflix" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">Prime Video<input type="checkbox" id="Prime Video" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">Youtube<input type="checkbox" id="Youtube" class="filterData"><span class="checkmark"></span></label>
-                <label class="checkbox-container">tubiTV<input type="checkbox" id="tubiTV" class="filterData"><span class="checkmark"></span></label>
+                <label class="checkbox-container">Select All<input type="checkbox" name="Select All" id="updateSelect" checked><span class="checkmark"></span></label>
+                <% for platform in @platforms %>
+                <label class="checkbox-container"><%= platform.name %><input type="checkbox" name="<%= platform.id %>" class="filterData"><span class="checkmark"></span></label>
+                <% end %>
             </div>
         </div>
     </div>
@@ -43,7 +37,27 @@
     </div>
 </div>
 
-<div id="anime-container" class="anime-container">
+<div id="anime-container-stub" class="anime-container">
+    <% for anime in @animes %>
+    <div class="anime-object aos-init aos-animate" data-aos="fade-up" key={index}>
+        <div class="anime-title">
+        <a href="<%= anime.url %>"><%= anime.title %></a>
+        </div>
+        <div class="anime-img-container" style="background-image: url('<%= anime.img_url %>')"></div>
+        <div class="anime-brief">
+        <span class="platform-icon" title="Streaming Platform">
+            <a href="<%= anime.platform.url %>" id="<%= anime.platform.name %>"><%= anime.platform.name[0] %></a>
+        </span>
+        <span class="anime-score"><%= anime.score %><span class="material-icons" style="font-size: 12px;">star</span></span>
+        <span class="anime-episodes">
+            <span class="material-icons" style="font-size: 12px;">playlist_play</span><span><%= anime.eps %></span>
+        </span>
+        </div>
+    </div>
+    <% end%>
+</div>
+
+<div id="anime-container" class="anime-container" style="display: none;">
 </div>
 
 <%= javascript_pack_tag 'Index' %>
