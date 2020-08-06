@@ -12,14 +12,18 @@ function fetchData(comp, offset=0) {
       platforms: comp.state.platforms
     },
     response => {
-      comp.setState({ hasMore: response.data.length > 0 });
+      comp.setState({ hasMore: response.anime.data.length > 0 });
+      if(response.count == 1)
+        $('.results').html(response.count + " entry");
+      else
+        $('.results').html(response.count + " entries");
 
       if (offset == 0) {
-        comp.setState({ animes: response });
+        comp.setState({ animes: response.anime });
       }
       else {
         var newAnimes = {...comp.state.animes};
-        newAnimes.data = newAnimes.data.concat(response.data);
+        newAnimes.data = newAnimes.data.concat(response.anime.data);
         comp.setState({ animes: newAnimes })
       }
     }
@@ -145,7 +149,7 @@ class Animes extends React.Component {
         </div>
       }
       endMessage={
-        <p style={{textAlign: 'center'}}>
+        <p style={{textAlign: 'center', width: '100%'}}>
           <b>End of list</b>
         </p>
       }

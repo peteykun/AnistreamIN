@@ -20,9 +20,11 @@ class AnimesController < ApplicationController
         result = result.order(params[:sort] + ' NULLS LAST')
       end
 
+      result_count = result.count
+
       result = result.limit(30)
       result = result.offset(params[:offset]) unless params[:offset].nil?
       
-      render json: AnimeSerializer.new(result).serializable_hash.to_json
+      render json: {count: result_count, anime: AnimeSerializer.new(result).serializable_hash}.to_json
     end
 end
